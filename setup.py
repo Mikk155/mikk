@@ -22,9 +22,13 @@ def check_version( teg: int ) -> bool:
 
     '''Return whatever the given tag version is newer than the last release in pyp'''
 
+    if local:
+
+        return True;
+
     response: requests.Response = requests.get( "https://pypi.org/pypi/mikk/json" );
 
-    if response.ok():
+    if response.ok:
 
         data = response.json();
 
@@ -40,25 +44,26 @@ def check_version( teg: int ) -> bool:
 
     return False;
 
-if local or check_version( tag ):
+if not check_version( tag ):
+    exit(0);
 
-    setuptools.setup(
-        name="mikk",
-        version='0.1' if local else tag,
-        author="Mikk155",
-        author_email="",
-        description="Various utilities",
-        long_description="Various utilities i do use on various of my projects",
-        long_description_content_type="text/markdown",
-        url="https://github.com/Mikk155/mikk",
-        packages=setuptools.find_packages(),
-        classifiers=[
-            "Programming Language :: Python :: 3",
-            "License :: OSI Approved :: MIT License",
-            "Operating System :: OS Independent",
-        ],
-        python_requires='>=3.11',
-        install_requires=[
-            "requests"
-        ],
-    )
+setuptools.setup(
+    name="mikk",
+    version='0.1' if local else tag,
+    author="Mikk155",
+    author_email="",
+    description="Various utilities",
+    long_description="Various utilities i do use on various of my projects",
+    long_description_content_type="text/markdown",
+    url="https://github.com/Mikk155/mikk",
+    packages=setuptools.find_packages(),
+    classifiers=[
+        "Programming Language :: Python :: 3",
+        "License :: OSI Approved :: MIT License",
+        "Operating System :: OS Independent",
+    ],
+    python_requires='>=3.11',
+    install_requires=[
+        "requests"
+    ],
+)
