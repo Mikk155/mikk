@@ -23,3 +23,4 @@ DEALINGS IN THE SOFTWARE.
 """
 
 from .fmt import fmt
+from .Logger import Logger, LoggerLevel, g_Logger
