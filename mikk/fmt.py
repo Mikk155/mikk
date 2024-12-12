@@ -93,3 +93,99 @@ class fmt:
                 data[ item ] = str(index);
 
         return data;
+
+    class FloatConversion:
+        '''fmt.FloatConversion Enum'''
+        none = 0
+        digits_6 = 1
+        digits_5 = 2
+        digits_4 = 3
+        digits_3 = 4
+        digits_2 = 5
+        digits_1 = 6
+        integer = 7
+        integer_round_up = 8
+        integer_round_down = 9
+        not_zero = 10
+        '''Remove zeros from float's decimals'''
+
+    @staticmethod
+    def __convert_float__( number, digits ):
+
+        if len( number ) > digits:
+
+            return number[ 0 : digits ];
+
+        while len( number ) < digits:
+
+            number += '0';
+
+        return number;
+
+    @staticmethod
+    def __conver_float_2__( number ):
+
+        while number.find( '.' ) != -1 and ( number.endswith( '0' ) or number.endswith( '.' ) ):
+
+            number = number[ : len( number ) - 1 ];
+
+        return number;
+
+    @staticmethod
+    def float( number: float | str, float_conversion: FloatConversion = FloatConversion.none ) -> str:
+
+        '''Converts a float to int/str'''
+
+        if isinstance( number, float ):
+
+            number = str( number );
+
+        if float_conversion == fmt.FloatConversion.none:
+
+            return number;
+
+        digits = number[ number.find( '.' ) + 1 : ] if number.find( '.' ) != -1 else '0';
+
+        number = number[ : number.find( '.' ) ] if number.find( '.' ) != -1 else number;
+
+        if float_conversion == fmt.FloatConversion.digits_6:
+
+            return '{}.{}'.format( number, fmt.__convert_float__( digits, 6 ) );
+
+        elif float_conversion == fmt.FloatConversion.digits_5:
+
+            return '{}.{}'.format( number, fmt.__convert_float__( digits, 5 ) );
+
+        elif float_conversion == fmt.FloatConversion.digits_4:
+
+            return '{}.{}'.format( number, fmt.__convert_float__( digits, 4 ) );
+
+        elif float_conversion == fmt.FloatConversion.digits_3:
+
+            return '{}.{}'.format( number, fmt.__convert_float__( digits, 3 ) );
+
+        elif float_conversion == fmt.FloatConversion.digits_2:
+
+            return '{}.{}'.format( number, fmt.__convert_float__( digits, 2 ) );
+
+        elif float_conversion == fmt.FloatConversion.digits_1:
+
+            return '{}.{}'.format( number, fmt.__convert_float__( digits, 1 ) );
+
+        elif float_conversion == fmt.FloatConversion.integer:
+
+            return number if int( digits[0] ) < 5 else str( int( number ) + 1 );
+
+        elif float_conversion == fmt.FloatConversion.integer_round_up:
+
+            return number if int( digits[0] ) == 0 else str( int( number ) + 1 );
+
+        elif float_conversion == fmt.FloatConversion.integer_round_down:
+
+            return number if int( digits[0] ) != 0 else str( int( number ) + 1 );
+
+        elif float_conversion == fmt.FloatConversion.not_zero:
+
+            return fmt.__conver_float_2__( '{}.{}'.format( number, digits ) );
+
+        return number;
