@@ -65,3 +65,31 @@ class fmt:
                 __destination__ = join( __destination__, __dir__ );
 
         return __destination__;
+
+    @staticmethod
+    def listdict( list: list, index_key: bool = False, value_int: bool = False ) -> dict[str, str] | dict[str, int]:
+        '''
+        Formats a list into a dictionary passing indexes as either keys or values
+
+        ``index_key`` if True the index will be formated as keys, if False as values
+
+        ``value_int`` if ``index_key`` is False and this is True, the values will be int, otherwise str
+        '''
+
+        data: dict = {};
+
+        for index, item in enumerate( list ):
+
+            if index_key:
+
+                data[ str(index) ] = item;
+
+            elif value_int:
+                
+                data[ item ] = index;
+
+            else:
+
+                data[ item ] = str(index);
+
+        return data;
