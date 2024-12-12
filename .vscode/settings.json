@@ -1,0 +1,20 @@
+{
+    "files.associations":
+    {
+        "*.json": "jsonc"
+    },
+    "files.exclude":
+    {
+        "__pycache__/": true,
+        "*/__pycache__/": true,
+        "build/": true,
+        "mikk.egg-info/": true
+    },
+    "search.exclude":
+    {
+        "__pycache__/": true,
+        "*/__pycache__/": true,
+        "build/": true,
+        "mikk.egg-info/": true
+    }
+}
