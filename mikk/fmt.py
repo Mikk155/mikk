@@ -39,3 +39,29 @@ class fmt:
             string = string.replace( "{}", arg, 1 );
 
         return string;
+
+    @staticmethod
+    def join( directory: str ) -> str:
+
+        '''
+        Returns the absolute path to the provided directory
+
+        **directory**: Path starting from the workspace the main script was called.
+        '''
+
+        from os.path import abspath;
+        from os.path import join;
+
+        __destination__ = abspath( '' );
+
+        __directories__ = directory.split( '/' );
+
+        for __dir__ in __directories__:
+
+            __dir__ = __dir__.strip();
+
+            if __dir__:
+
+                __destination__ = join( __destination__, __dir__ );
+
+        return __destination__;
