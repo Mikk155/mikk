@@ -1,2 +1,4 @@
 build/
 mikk.egg-info/
+dist/
+wip/

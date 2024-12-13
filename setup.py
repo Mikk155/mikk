@@ -3,7 +3,7 @@ import requests
 import setuptools
 
 global tag;
-tag:str;
+tag:str = None;
 
 global local;
 local: bool = False;
@@ -22,6 +22,7 @@ def check_version( teg: int ) -> bool:
 
     '''Return whatever the given tag version is newer than the last release in pyp'''
 
+    global local;
     if local:
 
         return True;

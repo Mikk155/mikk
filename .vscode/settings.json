@@ -8,6 +8,7 @@
         "__pycache__/": true,
         "*/__pycache__/": true,
         "build/": true,
+        "dist/": true,
         "mikk.egg-info/": true
     },
     "search.exclude":
@@ -15,6 +16,7 @@
         "__pycache__/": true,
         "*/__pycache__/": true,
         "build/": true,
+        "dist/": true,
         "mikk.egg-info/": true
     }
 }
