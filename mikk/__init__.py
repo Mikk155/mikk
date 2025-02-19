@@ -23,5 +23,5 @@ DEALINGS IN THE SOFTWARE.
 """
 
 from .fmt import fmt
-from .Logger import Logger, LoggerLevel, g_Logger
+from .Logger import Logger, LoggerLevel
 from .jsonc import jsonc

@@ -70,7 +70,10 @@ class Logger():
 
         for arg in args:
 
-            string = string.replace( "{}", arg, 1 );
+            if not '{}' in string:
+                break;
+
+            string = string.replace( "{}", arg if isinstance( arg, str ) else str(arg), 1 );
 
         global LogLevel;
 
@@ -97,7 +100,3 @@ class Logger():
 
     def critical( self, string: str, *args ) -> str:
         return self.__logger__( "Critical", string, LoggerLevel.critical, *args );
-
-global g_Logger;
-g_Logger = Logger(None);
-'''Global Logger instance'''

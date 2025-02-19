@@ -8,5 +8,5 @@ class YourCustomClass:
 str2 = YourCustomClass.m_Logger.warn( "Message for my custom class as {}", "str2" );
 
 mikk.LoggerLevel.clear( mikk.LoggerLevel.warning );
-str2 = YourCustomClass.m_Logger.warn( "This message won't display but well print it anways" );
+str2 = YourCustomClass.m_Logger.warn( "This message won't display but we'll print it anways" );
 print(str2)
