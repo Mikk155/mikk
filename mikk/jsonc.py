@@ -22,96 +22,62 @@ FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
 DEALINGS IN THE SOFTWARE.
 """
 
+import os
+import json
+from typing import Optional
+
 class jsonc:
 
     '''
-    Json Commentary
+        Json Commentary
+        Open a json file ignoring single-line commentary
     '''
 
-    from mikk.Logger import Logger;
-    m_Logger = Logger( "Json" );
-
     @staticmethod
-    def load( object: str, exists_ok = False, except_ok = False, encoding = 'utf-8' ) -> dict | list:
+    def load( file_path: str, *, exists_ok:Optional[bool]=None, cls=None, object_hook=None, parse_float=None,
+        parse_int=None, parse_constant=None, object_pairs_hook=None, **kw) -> dict | list:
+        """Deserialize ``fp`` (a ``.read()``-supporting file-like object containing
+        a JSON document) to a Python object.
 
-        '''
-        Open a json file ignoring single-line commentary
+        ``exists_ok`` if true and the file doesn't exist we'll create it and return a empty dict.
 
-        **object** Path to a json file or a string with json format
+        ``object_hook`` is an optional function that will be called with the
+        result of any object literal decode (a ``dict``). The return value of
+        ``object_hook`` will be used instead of the ``dict``. This feature
+        can be used to implement custom decoders (e.g. JSON-RPC class hinting).
 
-        **exists_ok** If true when the file doesn't exist we create it and return a empty dict instead of throwing a warning error
+        ``object_pairs_hook`` is an optional function that will be called with the
+        result of any object literal decoded with an ordered list of pairs.  The
+        return value of ``object_pairs_hook`` will be used instead of the ``dict``.
+        This feature can be used to implement custom decoders.  If ``object_hook``
+        is also defined, the ``object_pairs_hook`` takes priority.
 
-        **except_ok** If true this will return a empty dictionary when a Exception is thrown
+        To use a custom ``JSONDecoder`` subclass, specify it with the ``cls``
+        kwarg; otherwise ``JSONDecoder`` is used.
+        """
 
-        **encoding** Encoding used for reading the file.
-        '''
+        new_object = '';
 
-        from os.path import exists;
+        if os.path.exists( file_path ):
 
-        filenm = None
+            object_lines = open( file = file_path, mode = 'r' ).readlines();
 
-        if object.endswith( '.json' ):
+            for line in object_lines:
 
-            filenm = object;
+                line = line.strip();
 
-            if exists( object ):
+                if line and line != '' and not line.startswith( '//' ):
 
-                with open( file = object, mode = 'r', encoding = encoding ) as __file__:
-        
-                    object = __file__.readlines();
+                    new_object = f'{new_object}\n{line}';
 
-            elif exists_ok:
+        elif exists_ok:
 
-                open( object, 'w' ).write( "{\n}" );
+            open( file_path, 'w' ).write( "{\n}" );
 
-                return {};
-
-            else:
-
-                except_ = jsonc.m_Logger.error( "File doesn't exists {}", object );
-
-                if not except_ok:
-
-                    raise Exception( except_ );
-
-                return {};
-
-        from json import loads
-
-        __js_split__ = '';
-
-        if isinstance( object, str ):
-
-            __js_split__ = object;
-        
+            return {};
+    
         else:
 
-            for __line__ in object:
+            raise FileNotFoundError( f"Couldn't open file \"{file_path}\"" )
 
-                __line__ = __line__.strip();
-
-                if __line__ and __line__ != '':
-
-                    if __line__.startswith( '//' ):
-
-                        jsonc.m_Logger.debug( "Ignoring commentary line {}", __line__ );
-
-                    else:
-
-                        __js_split__ = f'{__js_split__}\n{__line__}';
-
-        try:
-
-            js = loads( __js_split__ );
-
-            return js;
-
-        except Exception as e:
-
-            except_ = jsonc.m_Logger.error( "Can not open {} Exception {}", filenm if filenm else 'object', e );
-
-            if not except_ok:
-
-                raise Exception( except_ );
-
-        return {};
+        return json.loads(new_object, cls=cls, object_hook=object_hook, parse_float=parse_float, parse_int=parse_int, parse_constant=parse_constant, object_pairs_hook=object_pairs_hook, **kw);
